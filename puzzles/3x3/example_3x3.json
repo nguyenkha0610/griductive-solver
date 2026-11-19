@@ -1,0 +1,25 @@
+{
+  "name": "example_3x3",
+  "size": 3,
+  "initial_revealed": ["A1"],
+  "characters": [
+    {"cell": "A1", "name": "Abel",  "profession": "Cook",  "status": "INNOCENT",
+     "clue": {"type": "EXACTLY", "k": 1, "region": {"kind": "NEIGHBORS", "ref": "A1"}}},
+    {"cell": "B1", "name": "Bea",   "profession": "Guard", "status": "CRIMINAL",
+     "clue": {"type": "DIFFERENT", "targets": ["A1", "B1"]}},
+    {"cell": "C1", "name": "Clara", "profession": "Clerk", "status": "INNOCENT",
+     "clue": {"type": "FACT", "targets": ["C1"], "status": "INNOCENT"}},
+    {"cell": "A2", "name": "Derek", "profession": "Cook",  "status": "INNOCENT",
+     "clue": {"type": "AT_MOST", "k": 1, "region": {"kind": "ROW", "ref": "2"}}},
+    {"cell": "B2", "name": "Eliza", "profession": "Judge", "status": "INNOCENT",
+     "clue": {"type": "SAME", "targets": ["A2", "B2"]}},
+    {"cell": "C2", "name": "Franz", "profession": "Clerk", "status": "INNOCENT",
+     "clue": {"type": "AT_LEAST", "k": 1, "region": {"kind": "COL", "ref": "B"}}},
+    {"cell": "A3", "name": "Grant", "profession": "Cook",  "status": "INNOCENT",
+     "clue": {"type": "EXACTLY", "k": 0, "region": {"kind": "CELLS", "cells": ["A2", "A3"]}}},
+    {"cell": "B3", "name": "Hannah","profession": "Guard", "status": "INNOCENT",
+     "clue": {"type": "EXACTLY", "k": 1, "region": {"kind": "ROW", "ref": "1"}}},
+    {"cell": "C3", "name": "Ivy",   "profession": "Clerk", "status": "INNOCENT",
+     "clue": {"type": "EXACTLY", "k": 1, "region": {"kind": "COL", "ref": "B"}}}
+  ]
+}
