@@ -1,0 +1,23 @@
+{
+  "name": "dev_solvable_4x4",
+  "size": 4,
+  "initial_revealed": ["A4"],
+  "characters": [
+    {"cell": "A1", "name": "Abel", "profession": "Cook", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 1, "region": {"kind": "ROW", "ref": "3"}}},
+    {"cell": "B1", "name": "Bea", "profession": "Cook", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 0, "region": {"kind": "CELLS", "cells": ["D1", "D3", "D4"]}}},
+    {"cell": "C1", "name": "Clara", "profession": "Cook", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 0, "region": {"kind": "NEIGHBORS", "ref": "C1"}}},
+    {"cell": "D1", "name": "Derek", "profession": "Guard", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 1, "region": {"kind": "NEIGHBORS", "ref": "C2"}}},
+    {"cell": "A2", "name": "Eliza", "profession": "Judge", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 1, "region": {"kind": "NEIGHBORS", "ref": "D2"}}},
+    {"cell": "B2", "name": "Franz", "profession": "Painter", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 0, "region": {"kind": "ROW", "ref": "4"}}},
+    {"cell": "C2", "name": "Grant", "profession": "Detective", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 0, "region": {"kind": "ROW", "ref": "1"}}},
+    {"cell": "D2", "name": "Hannah", "profession": "Painter", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 0, "region": {"kind": "COL", "ref": "B"}}},
+    {"cell": "A3", "name": "Ivy", "profession": "Judge", "status": "INNOCENT", "clue": {"type": "SAME", "targets": ["D4", "B1"]}},
+    {"cell": "B3", "name": "Jonas", "profession": "Clerk", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 0, "region": {"kind": "COL", "ref": "B"}}},
+    {"cell": "C3", "name": "Karl", "profession": "Cook", "status": "CRIMINAL", "clue": {"type": "EXACTLY", "k": 0, "region": {"kind": "ROW", "ref": "1"}}},
+    {"cell": "D3", "name": "Leo", "profession": "Clerk", "status": "INNOCENT", "clue": {"type": "AT_LEAST", "k": 1, "region": {"kind": "NEIGHBORS", "ref": "B2"}}},
+    {"cell": "A4", "name": "Mara", "profession": "Judge", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 0, "region": {"kind": "ROW", "ref": "1"}}},
+    {"cell": "B4", "name": "Noah", "profession": "Farmer", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 1, "region": {"kind": "NEIGHBORS", "ref": "B2"}}},
+    {"cell": "C4", "name": "Owen", "profession": "Clerk", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 0, "region": {"kind": "CELLS", "cells": ["A1", "A2", "A4"]}}},
+    {"cell": "D4", "name": "Priya", "profession": "Farmer", "status": "INNOCENT", "clue": {"type": "EXACTLY", "k": 0, "region": {"kind": "ROW", "ref": "4"}}}
+  ]
+}
