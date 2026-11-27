@@ -8,10 +8,8 @@ Controller chỉ dùng API công khai:
     agent.classify (làm classifier cho submit_verdict), agent.hint, agent.auto_solve
 KHÔNG đọc engine._puzzle (đáp án ẩn, clue chưa lật).
 
-Phần 4 chưa xong (NotImplementedError):
-    - classify  -> tạm dùng dev_classifier (chỉ dùng PublicState), có báo trên GUI
-    - hint / auto_solve -> hiện thông báo "chờ Phần 4", không sập.
-Khi Phần 4 xong, mọi thứ tự chạy, không phải sửa file này.
+Agent Phần 4 được dùng mặc định. dev_classifier chỉ là fallback cho agent
+được inject mà vẫn raise NotImplementedError trong quá trình phát triển.
 """
 from __future__ import annotations
 

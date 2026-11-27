@@ -1,4 +1,4 @@
-"""Test bộ điều khiển GUI (không cần tkinter, không cần Phần 4)."""
+"""Test bộ điều khiển GUI không cần mở tkinter."""
 from griductive.agent.trace import DeductionTrace, TraceStep
 from griductive.core.models import Status, Verdict
 from griductive.gui.controller import GameController
@@ -52,14 +52,13 @@ def test_cells_view_only_public_info():
     assert all(v.status is None and v.clue_text is None for v in down)
 
 
-def test_submit_flow_with_dev_classifier_fallback():
-    """Phần 4 chưa xong -> controller dùng classifier tạm và báo rõ."""
+def test_submit_flow_uses_deductive_agent_without_dev_fallback():
     c = GameController()
     c.load(FIX3)
     c.select_cell("A1")
     m = c.submit(Status.CRIMINAL)
     assert m.kind == "warn" and "NOT_PROVABLE" in m.text
-    assert c.using_dev_classifier and "TẠM" in c.classifier_label()
+    assert not c.using_dev_classifier and "DeductiveAgent" in c.classifier_label()
     # Clue C1: "Không có tội phạm nào trong các ô kề Ivy (C3)" -> B2 vô tội.
     c.select_cell("B2")
     assert "CONTRADICTED" in c.submit(Status.CRIMINAL).text
@@ -90,11 +89,17 @@ def test_select_clue_highlight_toggle():
     assert not c.highlight().all
 
 
-def test_hint_and_autosolve_wait_for_part4():
+def test_hint_and_autosolve_use_deductive_agent():
     c = GameController()
     c.load(FIX3)
-    assert "chờ Phần 4" in c.hint().text
-    assert "chờ Phần 4" in c.auto_solve().text
+    hint = c.hint()
+    assert "Eliza (B2)" in hint.text
+    assert c.hint_cell == "B2"
+    result = c.auto_solve()
+    assert result.kind == "ok" and "SOLVED" in result.text
+    assert len(result.details) == 8
+    assert result.details[0].startswith("Bước 1: B2 -> INNOCENT")
+    assert c.engine.is_solved()
 
 
 def test_with_finished_agent_no_fallback():

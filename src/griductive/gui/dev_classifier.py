@@ -1,7 +1,7 @@
-"""!!! CHỈ DÙNG ĐỂ DEV — SẼ THAY BẰNG DeductiveAgent.classify (Phần 4) !!!
+"""!!! CHỈ DÙNG ĐỂ DEV — FALLBACK KHI AGENT ĐƯỢC INJECT CHƯA IMPLEMENT !!!
 
-Classifier tạm để test GUI trong lúc Phần 2/4 chưa xong. GUI chỉ gọi file này khi
-DeductiveAgent.classify còn raise NotImplementedError.
+Classifier tạm brute-force để test GUI. Controller mặc định dùng
+DeductiveAgent; chỉ gọi file này khi agent thay thế raise NotImplementedError.
 
 Cách làm: "thử hết mọi khả năng" (brute force).
   - Đầu vào DUY NHẤT là PublicState (clue đã lật + verdict đã chứng minh).
@@ -11,7 +11,7 @@ Cách làm: "thử hết mọi khả năng" (brute force).
   - Giữ lại các cách gán thỏa MỌI clue đã lật. Nếu ô X có cùng giá trị trong mọi
     cách gán còn lại -> X bị ép buộc (CRIMINAL/INNOCENT); không thì UNKNOWN.
   - Không còn cách gán nào -> INCONSISTENT.
-Đây KHÔNG phải CNF/DPLL như đề yêu cầu; bản nộp phải dùng agent của Phần 4.
+Đây KHÔNG phải CNF/DPLL như đề yêu cầu; không dùng làm agent khi chạy puzzle.
 """
 from __future__ import annotations
 
