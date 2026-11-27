@@ -3,6 +3,15 @@
 Engine KHÔNG tự suy luận. Để phân biệt NOT_PROVABLE / CONTRADICTED nó nhận một
 `classifier` (callable) từ bên ngoài: classifier(PublicState, cell) -> Verdict.
 Ở bản tích hợp, classifier = DeductiveAgent.classify (Phần 4).
+
+Luồng submit_verdict(cell, claimed, classifier):
+    1. Ô đã lật rồi                         -> ALREADY_REVEALED
+    2. Hỏi classifier CHỈ với PublicState   -> v
+    3. v = INCONSISTENT                     -> INCONSISTENT  (KB tự mâu thuẫn)
+       v = UNKNOWN                          -> NOT_PROVABLE  (chưa đủ thông tin)
+       v ngược với claimed                  -> CONTRADICTED  (thông tin chứng minh điều ngược lại)
+       v = claimed                          -> đối chiếu đáp án ẩn rồi lật thẻ -> ACCEPTED
+Mọi trường hợp bị từ chối: trạng thái game KHÔNG đổi, thẻ KHÔNG lật.
 """
 from __future__ import annotations
 from typing import Callable
@@ -11,6 +20,12 @@ from .models import Clue, PublicState, Status, SubmitResult, Verdict
 from .puzzle_io import Puzzle, load_puzzle
 
 Classifier = Callable[[PublicState, str], Verdict]
+
+
+class PuzzleIntegrityError(RuntimeError):
+    """Classifier chứng minh được một verdict nhưng đáp án ẩn lại khác.
+    Chỉ xảy ra khi puzzle không có nghiệm duy nhất hoặc classifier bị lỗi.
+    Engine KHÔNG lật thẻ trong trường hợp này."""
 
 
 class GameEngine:
@@ -33,6 +48,11 @@ class GameEngine:
     def size(self) -> int:
         return self._puzzle.size
 
+    @property
+    def name(self) -> str:
+        """Tên puzzle (để GUI hiện tiêu đề). Không phải thông tin bí mật."""
+        return self._puzzle.name
+
     def public_state(self) -> PublicState:
         p = self._puzzle
         return PublicState(
@@ -51,16 +71,25 @@ class GameEngine:
     # ---- actions ----
     def submit_verdict(self, cell: str, claimed: Status, classifier: Classifier) -> SubmitResult:
         """Người chơi/agent gọi CRIMINAL hay INNOCENT cho `cell`."""
+        if cell not in self._puzzle.solution:
+            raise ValueError(f"Ô không tồn tại: {cell!r}")
+        claimed = Status(claimed)          # chấp nhận cả chuỗi "CRIMINAL"
         if cell in self._proved:
             return SubmitResult.ALREADY_REVEALED
-        v = classifier(self.public_state(), cell)
+        # Classifier chỉ được thấy PublicState (bản sao), không thấy self._puzzle.
+        v = Verdict(classifier(self.public_state(), cell))
         if v == Verdict.INCONSISTENT:
             return SubmitResult.INCONSISTENT
         if v == Verdict.UNKNOWN:
             return SubmitResult.NOT_PROVABLE
         if v.value != claimed.value:
             return SubmitResult.CONTRADICTED
-        assert self._puzzle.solution[cell] == claimed, "Puzzle không có nghiệm duy nhất?"
+        # Classifier nói "chứng minh được". Đáp án ẩn phải khớp; nếu không thì
+        # puzzle có nhiều nghiệm (hoặc classifier sai) -> báo lỗi, không lật thẻ.
+        if self._puzzle.solution[cell] != claimed:
+            raise PuzzleIntegrityError(
+                f"Classifier chứng minh {cell} = {claimed.value} nhưng đáp án ẩn khác. "
+                "Puzzle có thể không có nghiệm duy nhất, hoặc classifier bị lỗi.")
         self._reveal(cell)
         return SubmitResult.ACCEPTED
 
