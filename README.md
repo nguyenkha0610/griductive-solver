@@ -8,6 +8,7 @@ python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\act
 pip install -r requirements.txt
 python main.py gui                       # chơi / auto-solve bằng GUI
 python main.py solve puzzles/3x3/example_3x3.json
+python main.py solve puzzles/2x2/agent_chain.json # demo trace Phần 4
 python main.py experiments --timeout 60  # -> results/results.csv
 pytest                                   # chạy test
 ```
@@ -29,6 +30,8 @@ GUI ──► GameEngine (hidden solution, clue chưa lật)
 
 Hợp đồng giữa các module nằm trong docstring đầu mỗi file; cấu trúc dữ liệu chung ở `core/models.py`.
 Định dạng puzzle: `docs/puzzle_format.md`.
+Chi tiết thuật toán, SAT trace, uniqueness check và kịch bản demo Phần 4:
+`docs/report/part4_deductive_agent.md`.
 
 ## Thành viên
 | MSSV | Họ tên | Phần | % hoàn thành |
