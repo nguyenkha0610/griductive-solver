@@ -1,0 +1,35 @@
+{
+  "name": "agent_chain",
+  "size": 2,
+  "initial_revealed": ["A1"],
+  "characters": [
+    {
+      "cell": "A1",
+      "name": "Ada",
+      "profession": "Judge",
+      "status": "INNOCENT",
+      "clue": {"type": "FACT", "targets": ["B1"], "status": "CRIMINAL"}
+    },
+    {
+      "cell": "B1",
+      "name": "Ben",
+      "profession": "Guard",
+      "status": "CRIMINAL",
+      "clue": {"type": "FACT", "targets": ["A2"], "status": "INNOCENT"}
+    },
+    {
+      "cell": "A2",
+      "name": "Cal",
+      "profession": "Cook",
+      "status": "INNOCENT",
+      "clue": {"type": "FACT", "targets": ["B2"], "status": "INNOCENT"}
+    },
+    {
+      "cell": "B2",
+      "name": "Dee",
+      "profession": "Clerk",
+      "status": "INNOCENT",
+      "clue": {"type": "FACT", "targets": ["A1"], "status": "INNOCENT"}
+    }
+  ]
+}
