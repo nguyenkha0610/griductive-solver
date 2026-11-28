@@ -1,0 +1,11 @@
+puzzle,size,primary_vars,aux_vars,clauses,sat_calls,decisions,propagations,backtracks,deduction_steps,runtime_s,status
+puzzles/2x2/agent_chain.json,2,4,0,8,16,0,36,0,3,0.001686,SOLVED
+puzzles/3x3/core_3x3_1.json,3,9,16,52,81,13,920,0,8,0.027038,SOLVED
+puzzles/3x3/core_3x3_2.json,3,9,78,171,64,0,1222,0,7,0.044601,SOLVED
+puzzles/3x3/example_3x3.json,3,9,6,13,17,14,150,0,1,0.004157,STUCK
+puzzles/3x3/extensions_3x3.json,3,9,72,176,64,502,4594,310,7,0.576867,SOLVED
+puzzles/4x4/core_4x4.json,4,16,134,292,225,53,10586,0,14,0.406227,SOLVED
+puzzles/4x4/extensions_4x4.json,4,16,305,695,225,2156,35101,1580,14,14.719738,SOLVED
+puzzles/4x4/hard_4x4.json,4,16,137,302,196,185,10223,0,13,0.636618,SOLVED
+puzzles/5x5/stress_core_5x5.json,5,25,327,706,576,64,97316,2,23,16.927401,SOLVED
+puzzles/5x5/stress_extensions_5x5.json,5,25,360,809,576,977,75787,28,23,8.081405,SOLVED

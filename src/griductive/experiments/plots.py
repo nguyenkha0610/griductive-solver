@@ -43,6 +43,7 @@ def make_plots(
     axes[0].legend()
     axes[0].grid(axis="y", alpha=0.3)
 
+    from matplotlib.patches import Patch
     colors = [
         "#2f855a" if s == "SOLVED" else ("#c53030" if s in ("TIMEOUT", "ERROR", "INCONSISTENT") else "#d69e2e")
         for s in df["status"]
@@ -51,7 +52,16 @@ def make_plots(
     axes[1].set_xticks(list(x))
     axes[1].set_xticklabels(df["label"], rotation=35, ha="right", fontsize=8)
     axes[1].set_ylabel("Clauses")
-    axes[1].set_title("Generated CNF Clauses (Green=SOLVED, Yellow=STUCK, Red=TIMEOUT)")
+    axes[1].set_title("Generated CNF Clauses by Puzzle")
+    axes[1].legend(
+        handles=[
+            Patch(facecolor="#2f855a", label="SOLVED"),
+            Patch(facecolor="#d69e2e", label="STUCK"),
+            Patch(facecolor="#c53030", label="TIMEOUT / ERROR"),
+        ],
+        fontsize=8,
+        loc="upper left",
+    )
     axes[1].grid(axis="y", alpha=0.3)
 
     fig.tight_layout()
