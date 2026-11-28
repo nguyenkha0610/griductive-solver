@@ -239,7 +239,18 @@ class GriductiveApp:
         self._do(self.ctl.hint())
 
     def on_auto_solve(self) -> None:
-        self._do(self.ctl.auto_solve())
+        # Lưới 5x5 có thể mất vài giây: báo "đang giải" + con trỏ chờ, để người
+        # dùng không tưởng chương trình bị treo. update_idletasks() = vẽ ngay
+        # dòng thông báo trước khi bắt đầu chạy agent.
+        if self.ctl.loaded:
+            self.show(Message("info", "Đang tự giải... vui lòng chờ."))
+            self.root.config(cursor="watch")
+            self.root.update_idletasks()
+        try:
+            msg = self.ctl.auto_solve()
+        finally:
+            self.root.config(cursor="")    # luôn trả lại con trỏ bình thường
+        self._do(msg)
 
     def on_verdict(self, status: Status) -> None:
         self._do(self.ctl.submit(status))
