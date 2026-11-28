@@ -24,3 +24,8 @@ Công cụ: Claude (Anthropic), dùng như trợ lý lập trình.
 2. "Trở ngại 1 và 3 t giải quyết rồi đó, check thử." (kiểm tra quyền GitHub và file chia việc)
 3. Gửi lại link repo GitHub.
 4. "Giờ làm được gì cứ làm đi, đến chỗ nào cần đợi người khác làm thì bảo t."
+5. Hỏi cách chạy lệnh trên Windows từ đầu, cách lưu ảnh chụp màn hình (Paint / Snipping Tool).
+6. "Check GitHub xem còn gì không." (sau khi Phần 2–5 đã gộp: chạy lại toàn bộ test, chạy Hint /
+   Auto Solve qua GUI với mọi puzzle, liệt kê việc còn thiếu của Phần 1)
+7. "Phần nào của t làm được thì làm đi." (cập nhật báo cáo theo agent đã tích hợp, thêm thông báo
+   "Đang tự giải..." cho nút Auto Solve)

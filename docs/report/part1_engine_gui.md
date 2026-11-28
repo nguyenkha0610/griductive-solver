@@ -149,8 +149,10 @@ chưa cài thì dùng hàm phụ `core.grid.region_cells`. Vùng nằm trong `ex
 
 **Hint / Auto Solve**: GUI gọi `agent.hint(state)` và `agent.auto_solve(engine)` của Phần 4. Hint tô
 viền tím ô có thể chứng minh tiếp theo, và chọn sẵn clue đã lật có nhắc tới ô đó. Auto Solve
-in từng bước của deduction trace vào khung thông báo. Khi Phần 4 chưa xong, GUI bắt
-`NotImplementedError` và báo "đang chờ Phần 4" thay vì sập.
+in từng bước của deduction trace (ô, verdict, số truy vấn SAT, clue được lật) vào khung thông
+báo; với lưới 5×5 việc giải mất vài giây, nên GUI hiện "Đang tự giải..." và đổi con trỏ chuột
+sang dạng chờ để người dùng không tưởng chương trình bị treo. Mọi lỗi từ agent (kể cả
+`NotImplementedError` trong lúc phát triển) đều được bắt và hiện thành thông báo, GUI không sập.
 
 **Không làm lộ bí mật**: controller chỉ gọi API công khai của Engine (`from_file`, `restart`,
 `public_state`, `submit_verdict`, `is_solved`, `name`) và không bao giờ đọc `engine._puzzle`.
@@ -165,25 +167,50 @@ Dữ liệu để vẽ thẻ (`CellView`) chỉ có `status` khi thẻ đã lậ
 | `img/p1_not_provable.png` | Thông báo NOT_PROVABLE, thẻ vẫn úp |
 | `img/p1_contradicted.png` | Thông báo CONTRADICTED |
 | `img/p1_highlight.png` | Chọn một clue, các ô liên quan được viền cam |
-| `img/p1_hint_autosolve.png` | Hint / Auto Solve (sau khi Phần 4 xong) |
+| `img/p1_hint.png` | Hint: ô gợi ý viền tím, clue liên quan viền cam |
+| `img/p1_autosolve.png` | Auto Solve: lưới đã giải xong, trace từng bước trong khung thông báo |
 
 ## 7. Kiểm thử
 
 `pytest` chạy các test của Phần 1:
 `test_puzzle_io.py` (tọa độ, vùng, 13 loại lỗi file), `test_engine.py` (chấp nhận / từ chối,
 không đổi trạng thái khi bị từ chối, PublicState không chứa bí mật, classifier chỉ nhận
-PublicState), `test_gui_text_highlight.py`, `test_gui_controller.py` (toàn bộ luồng nút bấm, kể cả
-khi Phần 4 chưa xong hoặc agent bị lỗi) và `test_dev_classifier.py` (chơi hết puzzle 3×3 và 4×4
-mẫu mà không cần đoán).
+PublicState), `test_gui_text_highlight.py`, `test_gui_controller.py` (toàn bộ luồng nút bấm với
+agent đã tích hợp, kể cả khi agent bị lỗi) và `test_dev_classifier.py` (chơi hết puzzle 3×3 và
+4×4 mẫu mà không cần đoán). Toàn bộ test của nhóm đều chạy xanh.
 
-Trong lúc chờ Phần 4, nhóm dùng một **classifier tạm** (`gui/dev_classifier.py`, chỉ dùng để
-phát triển): thử mọi cách gán cho các ô mà clue đã lật nhắc tới, *chỉ* dựa trên `PublicState`.
-Khi `DeductiveAgent.classify` hoạt động, GUI tự chuyển sang agent thật (CNF + DPLL), thanh
-trạng thái đổi thành "Classifier: DeductiveAgent (Phần 4)".
+**Kiểm tra tích hợp GUI ↔ Agent.** Chạy Hint và Auto Solve qua `GameController` (đúng đường đi
+của nút bấm) với DeductiveAgent thật trên mọi puzzle trong `puzzles/`:
+
+| Puzzle | Kích thước | Auto Solve | Số bước |
+|---|---|---|---|
+| agent_chain | 2×2 | SOLVED | 3 |
+| core_3x3_1 | 3×3 | SOLVED | 8 |
+| core_3x3_2 | 3×3 | SOLVED | 7 |
+| extensions_3x3 | 3×3 | SOLVED | 7 |
+| example_3x3 | 3×3 | STUCK | — |
+| core_4x4 | 4×4 | SOLVED | 14 |
+| extensions_4x4 | 4×4 | SOLVED | 14 |
+| hard_4x4 | 4×4 | SOLVED | 13 |
+| stress_core_5x5 | 5×5 | SOLVED | 23 |
+| stress_extensions_5x5 | 5×5 | SOLVED | 23 |
+
+`example_3x3` bị kẹt là **đúng**: ở trạng thái ban đầu không ô nào được chứng minh (clue duy nhất
+"có đúng 1 tội phạm trong 3 ô kề A1" còn 3 khả năng), và nếu lật hết clue thì vẫn có 4 nghiệm.
+Agent dừng với STUCK, không đoán. Mọi clue trong các puzzle đều hiển thị thành câu và đều tô sáng
+được.
+
+Trong giai đoạn phát triển, trước khi Phần 4 hoàn thành, GUI được kiểm thử bằng một
+**classifier tạm** (`gui/dev_classifier.py`): thử mọi cách gán cho các ô mà clue đã lật nhắc tới,
+*chỉ* dựa trên `PublicState`. Bản hoàn chỉnh dùng DeductiveAgent (CNF + DPLL) làm classifier;
+thanh trạng thái hiện "Classifier: DeductiveAgent (Phần 4)". Classifier tạm chỉ còn là phương án
+dự phòng khi ai đó thay agent bằng một bản chưa cài xong.
 
 ## 8. Hạn chế
 
 - `puzzle_io` chỉ kiểm tra *cấu trúc* file. Việc đáp án ẩn có thỏa mọi clue và nghiệm có duy nhất
   không do evaluator (Phần 2) và uniqueness check (Phần 4) đảm nhận.
 - Lưới tối đa 9×9 (hàng chỉ có một chữ số). Đề chỉ yêu cầu 3–5.
-- Auto Solve hiện kết quả cuối cùng và trace dạng chữ, chưa có hiệu ứng lật từng thẻ.
+- Auto Solve hiện kết quả cuối cùng và trace dạng chữ, chưa có hiệu ứng lật từng thẻ. Agent chạy
+  trên cùng luồng với giao diện, nên trong vài giây giải lưới 5×5 cửa sổ không nhận thao tác
+  (đã có thông báo "Đang tự giải..." và con trỏ chờ).
