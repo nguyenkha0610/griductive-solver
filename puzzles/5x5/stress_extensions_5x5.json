@@ -1,0 +1,389 @@
+{
+  "name": "stress_extensions_5x5",
+  "size": 5,
+  "initial_revealed": [
+    "B1",
+    "D1"
+  ],
+  "characters": [
+    {
+      "cell": "A1",
+      "name": "Abel",
+      "profession": "Cook",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "PARITY",
+        "region": {
+          "kind": "COL",
+          "ref": "A"
+        },
+        "extra": {
+          "parity": "EVEN"
+        }
+      }
+    },
+    {
+      "cell": "B1",
+      "name": "Bea",
+      "profession": "Guard",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 2,
+        "region": {
+          "kind": "ROW",
+          "ref": "1"
+        }
+      }
+    },
+    {
+      "cell": "C1",
+      "name": "Clara",
+      "profession": "Clerk",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 2,
+        "region": {
+          "kind": "ROW",
+          "ref": "2"
+        }
+      }
+    },
+    {
+      "cell": "D1",
+      "name": "Derek",
+      "profession": "Judge",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 0,
+        "region": {
+          "kind": "CELLS",
+          "cells": [
+            "E1",
+            "A2",
+            "C2",
+            "E2"
+          ]
+        }
+      }
+    },
+    {
+      "cell": "E1",
+      "name": "Eliza",
+      "profession": "Painter",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 2,
+        "region": {
+          "kind": "COL",
+          "ref": "B"
+        }
+      }
+    },
+    {
+      "cell": "A2",
+      "name": "Franz",
+      "profession": "Farmer",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 2,
+        "region": {
+          "kind": "COL",
+          "ref": "C"
+        }
+      }
+    },
+    {
+      "cell": "B2",
+      "name": "Grant",
+      "profession": "Detective",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 0,
+        "region": {
+          "kind": "CELLS",
+          "cells": [
+            "A3",
+            "B3",
+            "D3"
+          ]
+        }
+      }
+    },
+    {
+      "cell": "C2",
+      "name": "Hannah",
+      "profession": "Pilot",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 2,
+        "region": {
+          "kind": "COL",
+          "ref": "D"
+        }
+      }
+    },
+    {
+      "cell": "D2",
+      "name": "Ivy",
+      "profession": "Doctor",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 2,
+        "region": {
+          "kind": "ROW",
+          "ref": "3"
+        }
+      }
+    },
+    {
+      "cell": "E2",
+      "name": "Jonas",
+      "profession": "Baker",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 2,
+        "region": {
+          "kind": "COL",
+          "ref": "E"
+        }
+      }
+    },
+    {
+      "cell": "A3",
+      "name": "Karl",
+      "profession": "Tailor",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "PARITY",
+        "region": {
+          "kind": "ROW",
+          "ref": "4"
+        },
+        "extra": {
+          "parity": "EVEN"
+        }
+      }
+    },
+    {
+      "cell": "B3",
+      "name": "Leo",
+      "profession": "Miner",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 2,
+        "region": {
+          "kind": "ROW",
+          "ref": "4"
+        }
+      }
+    },
+    {
+      "cell": "C3",
+      "name": "Mara",
+      "profession": "Nurse",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "COMPARE",
+        "extra": {
+          "region_a": {
+            "kind": "CELLS",
+            "cells": ["A2", "B2", "C2"]
+          },
+          "region_b": {
+            "kind": "CELLS",
+            "cells": ["C3", "D3", "E3"]
+          },
+          "operator": "<"
+        }
+      }
+    },
+    {
+      "cell": "D3",
+      "name": "Noah",
+      "profession": "Lawyer",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 0,
+        "region": {
+          "kind": "CELLS",
+          "cells": [
+            "A4",
+            "C4",
+            "E4"
+          ]
+        }
+      }
+    },
+    {
+      "cell": "E3",
+      "name": "Owen",
+      "profession": "Artist",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 2,
+        "region": {
+          "kind": "ROW",
+          "ref": "5"
+        }
+      }
+    },
+    {
+      "cell": "A4",
+      "name": "Priya",
+      "profession": "Architect",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "DIFFERENT",
+        "targets": [
+          "B4",
+          "C4"
+        ]
+      }
+    },
+    {
+      "cell": "B4",
+      "name": "Quilla",
+      "profession": "Detective",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "SAME",
+        "targets": [
+          "B4",
+          "D4"
+        ]
+      }
+    },
+    {
+      "cell": "C4",
+      "name": "Roy",
+      "profession": "Guard",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 4,
+        "region": {
+          "kind": "NEIGHBORS",
+          "ref": "C3"
+        }
+      }
+    },
+    {
+      "cell": "D4",
+      "name": "Sophia",
+      "profession": "Painter",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "COMPARE",
+        "extra": {
+          "region_a": {
+            "kind": "CELLS",
+            "cells": ["A5", "B5", "E5"]
+          },
+          "region_b": {
+            "kind": "CELLS",
+            "cells": ["B4", "C4", "D4"]
+          },
+          "operator": "="
+        }
+      }
+    },
+    {
+      "cell": "E4",
+      "name": "Tom",
+      "profession": "Farmer",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "FACT",
+        "targets": [
+          "E5"
+        ],
+        "status": "CRIMINAL"
+      }
+    },
+    {
+      "cell": "A5",
+      "name": "Uma",
+      "profession": "Chef",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 0,
+        "region": {
+          "kind": "CELLS",
+          "cells": [
+            "B5",
+            "C5",
+            "D5"
+          ]
+        }
+      }
+    },
+    {
+      "cell": "B5",
+      "name": "Victor",
+      "profession": "Soldier",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "PARITY",
+        "region": {
+          "kind": "COL",
+          "ref": "E"
+        },
+        "extra": {
+          "parity": "EVEN"
+        }
+      }
+    },
+    {
+      "cell": "C5",
+      "name": "Wendy",
+      "profession": "Teacher",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "SAME",
+        "targets": [
+          "A5",
+          "E5"
+        ]
+      }
+    },
+    {
+      "cell": "D5",
+      "name": "Xander",
+      "profession": "Clerk",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "DIFFERENT",
+        "targets": [
+          "D4",
+          "D5"
+        ]
+      }
+    },
+    {
+      "cell": "E5",
+      "name": "Yara",
+      "profession": "Judge",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "FACT",
+        "targets": [
+          "A1"
+        ],
+        "status": "CRIMINAL"
+      }
+    }
+  ]
+}

@@ -59,11 +59,21 @@ class DPLLSolver:
     sequences of literals, and a CNF formula is a sequence of clauses.
     """
 
-    def __init__(self, num_vars: Optional[int] = None, trace: bool = False):
+    def __init__(
+        self,
+        num_vars: Optional[int] = None,
+        trace: bool = False,
+        pure_literal: bool = False,
+        heuristic: str = "min_var",
+    ):
         if num_vars is not None:
             self._validate_num_vars(num_vars)
+        if heuristic not in ("min_var", "jw"):
+            raise ValueError("heuristic must be 'min_var' or 'jw'")
         self.num_vars = num_vars
         self.trace_enabled = trace
+        self.pure_literal = pure_literal
+        self.heuristic = heuristic
 
     def solve(
         self,
@@ -154,23 +164,78 @@ class DPLLSolver:
                     variable, str(value).lower()
                 ))
 
-        def search(current: dict[int, bool]) -> Optional[dict[int, bool]]:
-            if not propagate(current):
-                return None
-
-            unresolved_variables: set[int] = set()
+        def eliminate_pure_literals(current: dict[int, bool]) -> None:
+            """Assign variables appearing with only one polarity in open clauses."""
+            if not self.pure_literal:
+                return
+            pos: set[int] = set()
+            neg: set[int] = set()
             for clause in formula:
                 clause_satisfied = False
+                open_lits: list[int] = []
                 for literal in clause:
                     value = current.get(abs(literal))
-                    if value is not None and value == (literal > 0):
+                    if value is None:
+                        open_lits.append(literal)
+                    elif value == (literal > 0):
                         clause_satisfied = True
                         break
                 if not clause_satisfied:
-                    unresolved_variables.update(
-                        abs(literal) for literal in clause
-                        if abs(literal) not in current
-                    )
+                    for literal in open_lits:
+                        if literal > 0:
+                            pos.add(literal)
+                        else:
+                            neg.add(-literal)
+            pure_vars = sorted((pos ^ neg) - set(current))
+            for variable in pure_vars:
+                value = variable in pos
+                current[variable] = value
+                stats.propagations += 1
+                record("PURE: variable {} = {}".format(
+                    variable, str(value).lower()
+                ))
+
+        def choose_branch(
+            unresolved_clauses: list[list[int]], unresolved_variables: set[int]
+        ) -> tuple[int, tuple[bool, bool]]:
+            if self.heuristic == "min_var":
+                return min(unresolved_variables), (True, False)
+            pos_score: dict[int, float] = {v: 0.0 for v in unresolved_variables}
+            neg_score: dict[int, float] = {v: 0.0 for v in unresolved_variables}
+            for open_lits in unresolved_clauses:
+                weight = 2.0 ** (-len(open_lits))
+                for literal in open_lits:
+                    if literal > 0:
+                        pos_score[literal] += weight
+                    else:
+                        neg_score[-literal] += weight
+            variable = min(
+                unresolved_variables,
+                key=lambda v: (-(pos_score[v] + neg_score[v]), v),
+            )
+            order = (True, False) if pos_score[variable] >= neg_score[variable] else (False, True)
+            return variable, order
+
+        def search(current: dict[int, bool]) -> Optional[dict[int, bool]]:
+            if not propagate(current):
+                return None
+            eliminate_pure_literals(current)
+
+            unresolved_variables: set[int] = set()
+            unresolved_clauses: list[list[int]] = []
+            for clause in formula:
+                clause_satisfied = False
+                open_lits: list[int] = []
+                for literal in clause:
+                    value = current.get(abs(literal))
+                    if value is None:
+                        open_lits.append(literal)
+                    elif value == (literal > 0):
+                        clause_satisfied = True
+                        break
+                if not clause_satisfied:
+                    unresolved_clauses.append(open_lits)
+                    unresolved_variables.update(abs(lit) for lit in open_lits)
 
             if not unresolved_variables:
                 completed = dict(current)
@@ -178,8 +243,8 @@ class DPLLSolver:
                     completed.setdefault(variable, False)
                 return completed
 
-            variable = min(unresolved_variables)
-            for value in (True, False):
+            variable, value_order = choose_branch(unresolved_clauses, unresolved_variables)
+            for value in value_order:
                 stats.decisions += 1
                 record("DECIDE: variable {} = {}".format(
                     variable, str(value).lower()

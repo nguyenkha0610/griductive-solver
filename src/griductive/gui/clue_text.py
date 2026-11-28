@@ -56,8 +56,29 @@ def clue_to_text(clue: Clue, characters: Iterable[Character] = ()) -> str:
             par = str((clue.extra or {}).get("parity", "")).upper()
             kind = {"EVEN": "CHẴN", "ODD": "LẺ"}.get(par, par or "?")
             return f"Số tội phạm trong {region_text(clue.region, names)} là số {kind}."
+        if t == ClueType.COMPARE:
+            extra = clue.extra or {}
+            ra = _parse_extra_region(extra.get("region_a"))
+            rb = _parse_extra_region(extra.get("region_b"))
+            op = str(extra.get("operator", extra.get("relation", ""))).upper()
+            op_map = {
+                ">": "nhiều hơn", "GT": "nhiều hơn", "GREATER": "nhiều hơn",
+                "<": "ít hơn", "LT": "ít hơn", "LESS": "ít hơn",
+                "=": "bằng", "==": "bằng", "EQ": "bằng", "EQUAL": "bằng",
+            }
+            if ra is not None and rb is not None and op in op_map:
+                return (f"Số tội phạm trong {region_text(ra, names)} {op_map[op]} "
+                        f"số tội phạm trong {region_text(rb, names)}.")
     except (IndexError, KeyError, TypeError, ValueError):
         pass
     # Clue mở rộng chưa biết định dạng (Phần 2 quyết định) -> hiện dạng thô,
     # không làm sập GUI. Phần 2 có thể bổ sung câu chữ ở đây sau.
     return f"[{t.value}] targets={list(tg)} k={clue.k} extra={clue.extra}"
+
+
+def _parse_extra_region(value) -> Region | None:
+    if isinstance(value, Region):
+        return value
+    if isinstance(value, dict) and "kind" in value:
+        return Region(RegionKind(value["kind"]), value.get("ref"), tuple(value.get("cells", ())))
+    return None

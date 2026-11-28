@@ -1,0 +1,136 @@
+{
+  "name": "core_3x3_2",
+  "size": 3,
+  "initial_revealed": [
+    "B1",
+    "C1"
+  ],
+  "characters": [
+    {
+      "cell": "A1",
+      "name": "Abel",
+      "profession": "Cook",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 1,
+        "region": {
+          "kind": "ROW",
+          "ref": "1"
+        }
+      }
+    },
+    {
+      "cell": "B1",
+      "name": "Bea",
+      "profession": "Guard",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "AT_MOST",
+        "k": 0,
+        "region": {
+          "kind": "CELLS",
+          "cells": [
+            "A2",
+            "A3"
+          ]
+        }
+      }
+    },
+    {
+      "cell": "C1",
+      "name": "Clara",
+      "profession": "Clerk",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 1,
+        "region": {
+          "kind": "COL",
+          "ref": "A"
+        }
+      }
+    },
+    {
+      "cell": "A2",
+      "name": "Derek",
+      "profession": "Judge",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "DIFFERENT",
+        "targets": [
+          "B1",
+          "C2"
+        ]
+      }
+    },
+    {
+      "cell": "B2",
+      "name": "Eliza",
+      "profession": "Painter",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 3,
+        "region": {
+          "kind": "NEIGHBORS",
+          "ref": "B2"
+        }
+      }
+    },
+    {
+      "cell": "C2",
+      "name": "Franz",
+      "profession": "Farmer",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "SAME",
+        "targets": [
+          "A2",
+          "C3"
+        ]
+      }
+    },
+    {
+      "cell": "A3",
+      "name": "Grant",
+      "profession": "Detective",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "AT_LEAST",
+        "k": 1,
+        "region": {
+          "kind": "ROW",
+          "ref": "3"
+        }
+      }
+    },
+    {
+      "cell": "B3",
+      "name": "Hannah",
+      "profession": "Pilot",
+      "status": "CRIMINAL",
+      "clue": {
+        "type": "EXACTLY",
+        "k": 1,
+        "region": {
+          "kind": "COL",
+          "ref": "B"
+        }
+      }
+    },
+    {
+      "cell": "C3",
+      "name": "Ivy",
+      "profession": "Doctor",
+      "status": "INNOCENT",
+      "clue": {
+        "type": "FACT",
+        "targets": [
+          "B1"
+        ],
+        "status": "INNOCENT"
+      }
+    }
+  ]
+}

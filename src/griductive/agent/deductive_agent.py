@@ -13,8 +13,12 @@ from .uniqueness import check_uniqueness as _check_uniqueness
 
 
 class DeductiveAgent:
-    def __init__(self) -> None:
-        self._solver = DPLLSolver()
+    def __init__(
+        self, pure_literal: bool = False, heuristic: str = "min_var"
+    ) -> None:
+        self._solver = DPLLSolver(
+            pure_literal=pure_literal, heuristic=heuristic
+        )
 
     def classify(self, state: PublicState, cell: str) -> Verdict:
         """Return a verdict only when it is entailed by the public knowledge base."""
